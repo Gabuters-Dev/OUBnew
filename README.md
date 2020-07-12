@@ -32,7 +32,7 @@
 <p align="center">&nbsp;</p>
 
 # Google Drive Tutorial
-[![SetGD](https://raw.githubusercontent.com/fortifying/OUBnew/sql-extended/gd.png)](https://telegra.ph/How-To-Setup-Google-Drive-04-03)
+[![SetGD](https://raw.githubusercontent.com/Gabuters-Dev/OUBnew/sql-extended/gd.png)](https://telegra.ph/How-To-Setup-Google-Drive-04-03)
 
 
 # Updates and Support
