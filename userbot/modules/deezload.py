@@ -40,9 +40,7 @@ from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeAudio
 
 
-@register(
-    outgoing=True,
-    pattern="^\.deez (.+?|) (FLAC|MP3\_320|MP3\_256|MP3\_128)")
+@register(outgoing=True, pattern="^\.deez (.+?|) (FLAC|MP3\_320|MP3\_256|MP3\_128)")
 async def _(event):
     """DeezLoader by @An0nimia
     Ported for UniBorg by @SpEcHlDe"""
@@ -56,7 +54,8 @@ async def _(event):
         "wrong_cmd_syntax": "bruh, now i think how far should we go. please terminate my Session!",
         "server_error": "We're experiencing technical difficulties.",
         "processing": "`Downloading...`",
-        "uploading": "`Uploading...`"}
+        "uploading": "`Uploading...`",
+    }
 
     ARL_TOKEN = DEEZER_ARL_TOKEN
 
@@ -87,7 +86,7 @@ async def _(event):
                 quality=required_qty,
                 recursive_quality=True,
                 recursive_download=True,
-                not_interface=True
+                not_interface=True,
             )
             await event.edit(strings["uploading"])
             await upload_track(required_track, event)
@@ -102,7 +101,7 @@ async def _(event):
                 recursive_quality=True,
                 recursive_download=True,
                 not_interface=True,
-                zips=False
+                zips=False,
             )
             for required_track in reqd_albums:
                 await event.edit(strings["uploading"])
@@ -118,7 +117,7 @@ async def _(event):
                 quality=required_qty,
                 recursive_quality=True,
                 recursive_download=True,
-                not_interface=True
+                not_interface=True,
             )
             await event.edit(strings["uploading"])
             await upload_track(required_track, event)
@@ -133,7 +132,7 @@ async def _(event):
                 recursive_quality=True,
                 recursive_download=True,
                 not_interface=True,
-                zips=False
+                zips=False,
             )
             for required_track in reqd_albums:
                 await event.edit(strings["uploading"])
@@ -162,7 +161,7 @@ async def upload_track(track_location, message):
             voice=False,
             title=title,
             performer=performer,
-            waveform=None
+            waveform=None,
         )
     ]
     supports_streaming = True
@@ -179,9 +178,11 @@ async def upload_track(track_location, message):
     )
     os.remove(track_location)
 
-CMD_HELP.update({
-    "deezload":
-        ">`.deez` <spotify/deezer link> <FORMAT>"
+
+CMD_HELP.update(
+    {
+        "deezload": ">`.deez` <spotify/deezer link> <FORMAT>"
         "\nUsage: Download music from deezer or spotify."
         "\n\n *FORMAT= `FLAC`, `MP3_320`, `MP3_256`, `MP3_128`."
-})
+    }
+)

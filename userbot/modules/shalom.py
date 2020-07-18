@@ -49,10 +49,12 @@ async def shalom(e):
         "\n☁️☁️☁️☁️⭐️⭐️☁️☁️☁️"
         "\n☁️☁️☁️☁️☁️☁️⭐️☁️☁️"
         "\n☁️⭐️⭐️⭐️⭐️⭐️⭐️⭐️☁️"
-        "\n☁️☁️☁️☁️☁️☁️☁️☁️☁️")
+        "\n☁️☁️☁️☁️☁️☁️☁️☁️☁️"
+    )
 
-    CMD_HELP.update({
-        'shalom':
-        '.shalom\
-\nUsage: gives a nice SHALOM as output.'
-    })
+    CMD_HELP.update(
+        {
+            "shalom": ".shalom\
+\nUsage: gives a nice SHALOM as output."
+        }
+    )

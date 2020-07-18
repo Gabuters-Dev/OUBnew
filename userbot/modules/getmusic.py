@@ -35,7 +35,7 @@ async def _(event):
         force_document=True,
         allow_cache=False,
         caption=cmd,
-        reply_to=reply_to_id
+        reply_to=reply_to_id,
     )
     os.system("rm -rf *.mp3")
     subprocess.check_output("rm -rf *.mp3", shell=True)
@@ -54,24 +54,26 @@ async def _(event):
         await event.edit("`Downloading music taking some times,  Stay Tuned.....`")
         try:
             response = conv.wait_event(
-                events.NewMessage(
-                    incoming=True,
-                    from_users=752979930))
+                events.NewMessage(incoming=True, from_users=752979930)
+            )
             await bot.send_message(chat, link)
             respond = await response
             await bot.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await event.reply("```Please unblock @SpotifyMusicDownloaderBot and try again```")
+            await event.reply(
+                "```Please unblock @SpotifyMusicDownloaderBot and try again```"
+            )
             return
         await event.delete()
         await bot.forward_messages(event.chat_id, respond.message)
         await bot.send_read_acknowledge(event.chat_id)
 
 
-CMD_HELP.update({
-    "song":
-        ">`.song` **atrist title**"
+CMD_HELP.update(
+    {
+        "song": ">`.song` **atrist title**"
         "\nUsage: Finding and uploading song.\n"
         ">`.smd` **<song tittle>**"
         "\nUsage: **Download music from spotify**"
-})
+    }
+)
