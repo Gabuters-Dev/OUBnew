@@ -45,6 +45,8 @@ afk_time = None
 afk_start = {}
 
 # =================================================================
+
+
 @register(outgoing=True, pattern="^.afk(?: |$)(.*)", disable_errors=True)
 async def set_afk(afk_e):
     """ For .afk command, allows you to inform people that you are afk when they message you """
@@ -159,21 +161,21 @@ async def mention_afk(mention):
             if mention.sender_id not in USERS:
                 if AFKREASON:
                     await mention.reply(f"{str(choice(AFKSTR))}"
-    f"\n\nI'm AFK right now since {afk_since}"
-    f"\nReason: `{AFKREASON}`")
+                                        f"\n\nI'm AFK right now since {afk_since}"
+                                        f"\nReason: `{AFKREASON}`")
                 else:
                     await mention.reply(f"Sorry, but [{user.first_name}](tg://user?id={user.id}) is AFK!")
                 USERS.update({mention.sender_id: 1})
                 COUNT_MSG = COUNT_MSG + 1
             elif mention.sender_id in USERS:
-                    if AFKREASON:
-                        await mention.reply(f"{str(choice(AFKSTR))}"
-    f"\n\nI'm AFK right now since {afk_since}"
-    f"\nReason: `{AFKREASON}`")
-                    else:
-                        await mention.reply(f"Sorry, but [{user.first_name}](tg://user?id={user.id}) is AFK!")
-                    USERS[mention.sender_id] = USERS[mention.sender_id] + 1
-                    COUNT_MSG = COUNT_MSG + 1
+                if AFKREASON:
+                    await mention.reply(f"{str(choice(AFKSTR))}"
+                                        f"\n\nI'm AFK right now since {afk_since}"
+                                        f"\nReason: `{AFKREASON}`")
+                else:
+                    await mention.reply(f"Sorry, but [{user.first_name}](tg://user?id={user.id}) is AFK!")
+                USERS[mention.sender_id] = USERS[mention.sender_id] + 1
+                COUNT_MSG = COUNT_MSG + 1
 
 
 @register(incoming=True, disable_errors=True)
@@ -233,14 +235,14 @@ async def afk_on_pm(sender):
             else:
                 afk_since = f"`{int(seconds)}s` ago"
             if sender.sender_id not in USERS:
-                            if AFKREASON:
-                                await sender.reply(f"{str(choice(AFKSTR))}\n"
-                f"\n\nI'm AFK right now since {afk_since}"
-                f"\nReason: `{AFKREASON}`")
-                            else:
-                                await sender.reply(f"Sorry, but [{user.first_name}](tg://user?id={user.id}) is AFK!")
-                            USERS.update({sender.sender_id: 1})
-                            COUNT_MSG = COUNT_MSG + 1
+                if AFKREASON:
+                    await sender.reply(f"{str(choice(AFKSTR))}\n"
+                                       f"\n\nI'm AFK right now since {afk_since}"
+                                       f"\nReason: `{AFKREASON}`")
+                else:
+                    await sender.reply(f"Sorry, but [{user.first_name}](tg://user?id={user.id}) is AFK!")
+                USERS.update({sender.sender_id: 1})
+                COUNT_MSG = COUNT_MSG + 1
             elif apprv:
                 if USERS[sender.sender_id] % randint(2, 4) == 0:
                     if AFKREASON:

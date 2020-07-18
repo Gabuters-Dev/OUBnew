@@ -1,5 +1,5 @@
-#Based Code by @adekmaulana
-#Improve by @aidilaryanto
+# Based Code by @adekmaulana
+# Improve by @aidilaryanto
 #
 #
 import os
@@ -31,14 +31,14 @@ async def _(hazmat):
             if level:
                 m = f"/hazmat {level}"
                 msg_reply = await conv.send_message(
-                          m,
-                          reply_to=msg.id)
+                    m,
+                    reply_to=msg.id)
                 r = await conv.get_response()
             elif reply_message.gif:
                 m = "/hazmat"
                 msg_reply = await conv.send_message(
-                          m,
-                          reply_to=msg.id)
+                    m,
+                    reply_to=msg.id)
                 r = await conv.get_response()
             response = await conv.get_response()
             """ - don't spam notif - """
@@ -54,8 +54,8 @@ async def _(hazmat):
             return
         else:
             downloaded_file_name = await hazmat.client.download_media(
-                                 response.media,
-                                 TEMP_DOWNLOAD_DIRECTORY
+                response.media,
+                TEMP_DOWNLOAD_DIRECTORY
             )
             await hazmat.client.send_file(
                 hazmat.chat_id,
@@ -70,7 +70,7 @@ async def _(hazmat):
                     [msg.id, msg_reply.id, r.id, response.id])
             else:
                 await hazmat.client.delete_messages(conv.chat_id,
-                                                 [msg.id, response.id])
+                                                    [msg.id, response.id])
     await hazmat.delete()
     return os.remove(downloaded_file_name)
 

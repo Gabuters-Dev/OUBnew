@@ -7,22 +7,22 @@
 """
 This module updates the userbot based on upstream revision
 """
- 
+
 from os import remove, execle, path, environ
 import asyncio
 import sys
- 
+
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
- 
+
 from userbot import (CMD_HELP, HEROKU_API_KEY,
                      HEROKU_APP_NAME, UPSTREAM_REPO_URL, UPSTREAM_REPO_BRANCH)
 from userbot.events import register
- 
+
 requirements_path = path.join(
     path.dirname(path.dirname(path.dirname(__file__))), 'requirements.txt')
- 
- 
+
+
 async def gen_chlog(repo, diff):
     ch_log = ''
     d_form = "%d/%m/%y"
@@ -32,8 +32,8 @@ async def gen_chlog(repo, diff):
             f'{c.summary} <{c.author}>\n'
         )
     return ch_log
- 
- 
+
+
 async def print_changelogs(event, ac_br, changelog):
     changelog_str = (
         f'**New UPDATE available for [{ac_br}]:\n\nCHANGELOG:**\n`{changelog}`'
@@ -56,8 +56,8 @@ async def print_changelogs(event, ac_br, changelog):
             reply_to=event.id,
         )
     return True
- 
- 
+
+
 async def update_requirements():
     reqs = str(requirements_path)
     try:
@@ -69,8 +69,8 @@ async def update_requirements():
         return process.returncode
     except Exception as e:
         return repr(e)
- 
- 
+
+
 async def deploy(event, repo, ups_rem, ac_br, txt):
     if HEROKU_API_KEY is not None:
         import heroku3
@@ -125,8 +125,8 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
                          '`Please set up`  **HEROKU_API_KEY**  `variable...`'
                          )
     return
- 
- 
+
+
 async def update(event, repo, ups_rem, ac_br):
     try:
         ups_rem.pull(ac_br)
@@ -139,8 +139,8 @@ async def update(event, repo, ups_rem, ac_br):
     args = [sys.executable, "-m", "userbot"]
     execle(sys.executable, *args, environ)
     return
- 
- 
+
+
 @register(outgoing=True, pattern="^.update( now| deploy|$)")
 async def upstream(event):
     "For .update command, check if the bot is up to date, update if specified"
@@ -170,9 +170,10 @@ async def upstream(event):
         origin = repo.create_remote('upstream', off_repo)
         origin.fetch()
         force_update = True
-        repo.create_head('sql-extended', origin.refs.sql-extended)
-        repo.heads.sql-extended.set_tracking_branch(origin.refs.sql-extended)
-        repo.heads.sql-extended.checkout(True)
+        repo.create_head('sql-extended', origin.refs.sql - extended)
+        repo.heads.sql - \
+            extended.set_tracking_branch(origin.refs.sql - extended)
+        repo.heads.sql - extended.checkout(True)
 
     ac_br = repo.active_branch.name
     if ac_br != UPSTREAM_REPO_BRANCH:
@@ -217,8 +218,8 @@ async def upstream(event):
         await event.edit('`Updating userbot, please wait....`')
         await update(event, repo, ups_rem, ac_br)
     return
- 
- 
+
+
 CMD_HELP.update({
     'update':
     ">`.update`"
@@ -231,4 +232,3 @@ CMD_HELP.update({
     "\nUsage: Deploy your userbot"
     "\nThis will triggered deploy always, even no updates."
 })
- 

@@ -9,6 +9,7 @@ import sys
 from userbot import CMD_HELP
 from userbot.events import register
 
+
 @register(outgoing=True, pattern="^.shalom$")
 async def shalom(e):
     await e.edit(
@@ -49,9 +50,9 @@ async def shalom(e):
         "\n☁️☁️☁️☁️☁️☁️⭐️☁️☁️"
         "\n☁️⭐️⭐️⭐️⭐️⭐️⭐️⭐️☁️"
         "\n☁️☁️☁️☁️☁️☁️☁️☁️☁️")
-    
+
     CMD_HELP.update({
-    'shalom':
-    '.shalom\
+        'shalom':
+        '.shalom\
 \nUsage: gives a nice SHALOM as output.'
-})
+    })

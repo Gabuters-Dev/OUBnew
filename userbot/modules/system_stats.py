@@ -23,9 +23,10 @@ CN = str(CODENAME)
 
 MODULESTR = 0
 
+
 @register(outgoing=True, pattern="^.sysd$")
 async def sysdetails(sysd):
-    #Prevent Channel Bug to run sysd commad
+    # Prevent Channel Bug to run sysd commad
     if sysd.is_channel and not sysd.is_group:
         await sysd.edit("`sysd Commad isn't permitted on channels`")
         return
@@ -50,7 +51,7 @@ async def sysdetails(sysd):
 
 @register(outgoing=True, pattern="^.botver$")
 async def bot_ver(event):
-     #Prevent Channel Bug to run botver commad
+     # Prevent Channel Bug to run botver commad
     if event.is_channel and not event.is_group:
         await event.edit("`botver Commad isn't permitted on channels`")
         return
@@ -127,7 +128,7 @@ async def bot_ver(event):
 
 @register(outgoing=True, pattern="^.pip(?: |$)(.*)")
 async def pipcheck(pip):
-      #Prevent Channel Bug to run pip commad
+      # Prevent Channel Bug to run pip commad
     if pip.is_channel and not pip.is_group:
         await pip.edit("`pip Commad isn't permitted on channels`")
         return
@@ -176,30 +177,30 @@ async def pipcheck(pip):
 
 @register(outgoing=True, pattern=r"^\.(?:live|on)\s?(.)?")
 async def amireallyalive(alive):
-    #Prevent Channel Bug to run alive commad
+    # Prevent Channel Bug to run alive commad
     if alive.is_channel and not alive.is_group:
         await alive.edit("`alive Commad isn't permitted on channels`")
         return
     """ For .alive command, check if the bot is running.  """
     logo = LOGO
     output = (
-             f"running on __{UPSTREAM_REPO_BRANCH}__ \n"  
-             "----------------------------------------\n"    
-             "`Bot Version Info` \n"
-             f"`CODENAME : {CN} v{VER} `\n"
-             f"`Telethon : v{version.__version__} `\n"
-             f"`Python   : v{python_version()} `\n"
-              "----------------------------------------\n"
-             f"`User : `{DEFAULTUSER} \n\n"
-             f"`All modules loaded with ({MODULESTR}) errors`"
-              )
+        f"running on __{UPSTREAM_REPO_BRANCH}__ \n"
+        "----------------------------------------\n"
+        "`Bot Version Info` \n"
+        f"`CODENAME : {CN} v{VER} `\n"
+        f"`Telethon : v{version.__version__} `\n"
+        f"`Python   : v{python_version()} `\n"
+        "----------------------------------------\n"
+        f"`User : `{DEFAULTUSER} \n\n"
+        f"`All modules loaded with ({MODULESTR}) errors`"
+    )
     await bot.send_file(alive.chat_id, logo, caption=output)
     await alive.delete()
 
 
 @register(outgoing=True, pattern="^.aliveu")
 async def amireallyaliveuser(username):
-    #Prevent Channel Bug to run aliveu commad
+    # Prevent Channel Bug to run aliveu commad
     if username.is_channel and not username.is_group:
         await username.edit("`aliveu Commad isn't permitted on channels`")
         return
@@ -216,7 +217,7 @@ async def amireallyaliveuser(username):
 
 @register(outgoing=True, pattern="^.resetalive$")
 async def amireallyalivereset(ureset):
-    #Prevent Channel Bug to run resetalive commad
+    # Prevent Channel Bug to run resetalive commad
     if ureset.is_channel and not ureset.is_group:
         await ureset.edit("`resetalive Commad isn't permitted on channels`")
         return

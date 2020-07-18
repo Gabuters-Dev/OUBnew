@@ -19,7 +19,7 @@ from userbot.events import register
 
 @register(pattern=".whois(?: |$)(.*)", outgoing=True)
 async def who(event):
-    #Prevent Channel Bug to use commad whois
+    # Prevent Channel Bug to use commad whois
     if event.is_channel and not event.is_group:
         await event.edit("`whois Commad isn't permitted on channels`")
         return

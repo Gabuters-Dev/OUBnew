@@ -298,17 +298,18 @@ async def get_pack_info(event):
 
     await event.edit(OUTPUT)
 
+
 @register(outgoing=True, pattern="^.getsticker$")
 async def sticker_to_png(sticker):
     if not sticker.is_reply:
         await sticker.edit("`NULL information to feftch...`")
         return False
- 
+
     img = await sticker.get_reply_message()
     if not img.document:
         await sticker.edit("`Reply to a sticker...`")
         return False
- 
+
     await sticker.edit("`Converting...`")
     image = io.BytesIO()
     await sticker.client.download_media(img, image)

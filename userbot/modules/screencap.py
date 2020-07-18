@@ -43,8 +43,8 @@ async def _(event):
                 await event.edit(str(e))
     else:
         await event.edit(response_api.text)
-        
-        
+
+
 CMD_HELP.update({
     "screencap":
     ".capscr <url> \

@@ -14,9 +14,9 @@ from userbot.events import register
 
 @register(outgoing=True, pattern=r"^.rgb (.*)")
 async def sticklet(event):
-    R = random.randint(0,256)
-    G = random.randint(0,256)
-    B = random.randint(0,256)
+    R = random.randint(0, 256)
+    G = random.randint(0, 256)
+    B = random.randint(0, 256)
 
     # get the input text
     # the text on which we would like to do the magic on
@@ -44,7 +44,15 @@ async def sticklet(event):
         font = ImageFont.truetype(FONT_FILE, size=fontsize)
 
     width, height = draw.multiline_textsize(sticktext, font=font)
-    draw.multiline_text(((512-width)/2,(512-height)/2), sticktext, font=font, fill=(R, G, B))
+    draw.multiline_text(
+        ((512 - width) / 2,
+         (512 - height) / 2),
+        sticktext,
+        font=font,
+        fill=(
+            R,
+            G,
+            B))
 
     image_stream = io.BytesIO()
     image_stream.name = "dclxvi.webp"
@@ -62,7 +70,7 @@ async def sticklet(event):
     # cleanup
     try:
         os.remove(FONT_FILE)
-    except:
+    except BaseException:
         pass
 
 
