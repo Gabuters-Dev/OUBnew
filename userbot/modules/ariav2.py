@@ -14,13 +14,7 @@ cmd = "aria2c --enable-rpc --rpc-listen-all=false --rpc-listen-port 6800  --max-
 
 aria2_is_running = os.system(cmd)
 
-aria2 = aria2p.API(
-    aria2p.Client(
-        host="http://localhost",
-        port=6800,
-        secret=""
-    )
-)
+aria2 = aria2p.API(aria2p.Client(host="http://localhost", port=6800, secret=""))
 
 
 @register(outgoing=True, pattern="^.url(?: |$)(.*)")
@@ -44,17 +38,30 @@ async def magnet_download(event):
         file = aria2.get_download(gid)
         complete = file.is_complete
         try:
-            msg = "⬛⬛⬛⬛⬛⬛⬛⬛⬛\n**Downloading File:** " + str(file.name) + "\n**Speed:** " + str(file.download_speed_string()) + "\n**Progress:** " + str(
-                file.progress_string()) + "\n**Total Size:** " + str(file.total_length_string()) + "\n**ETA:**  " + str(file.eta_string()) + "\n⬛⬛⬛⬛⬛⬛⬛⬛⬛\n\n"
+            msg = (
+                "⬛⬛⬛⬛⬛⬛⬛⬛⬛\n**Downloading File:** "
+                + str(file.name)
+                + "\n**Speed:** "
+                + str(file.download_speed_string())
+                + "\n**Progress:** "
+                + str(file.progress_string())
+                + "\n**Total Size:** "
+                + str(file.total_length_string())
+                + "\n**ETA:**  "
+                + str(file.eta_string())
+                + "\n⬛⬛⬛⬛⬛⬛⬛⬛⬛\n\n"
+            )
             await event.edit(msg)
             await asyncio.sleep(10)
         except Exception as e:
             print(str(e))
     await event.edit("**File Downloaded Successfully:** `{}`".format(file.name))
 
-CMD_HELP.update({
-    "aria2":
-    ".url [URL]\
+
+CMD_HELP.update(
+    {
+        "aria2": ".url [URL]\
     \nUsage: Downloads the file into your userbot server storage.\
     \nUsing ariav2."
-})
+    }
+)
