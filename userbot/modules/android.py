@@ -4,27 +4,27 @@
 # you may not use this file except in compliance with the License.
 #
 """ Userbot module containing commands related to android"""
- 
+
 import asyncio
 import re
 import os
 import time
 import math
- 
+
 from requests import get
 from bs4 import BeautifulSoup
- 
+
 from userbot import CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
 from userbot.events import register
 from userbot.utils import (
     chrome, humanbytes, time_formatter, md5, human_to_bytes
 )
- 
+
 GITHUB = 'https://github.com'
 DEVICES_DATA = ('https://raw.githubusercontent.com/androidtrackers/'
                 'certified-android-devices/master/by_device.json')
- 
- 
+
+
 @register(outgoing=True, pattern="^.magisk$")
 async def magisk(request):
     """ magisk latest releases """
@@ -42,11 +42,11 @@ async def magisk(request):
     for name, release_url in magisk_dict.items():
         data = get(release_url).json()
         releases += f'{name}: [ZIP v{data["magisk"]["version"]}]({data["magisk"]["link"]}) | ' \
-                    f'[APK v{data["app"]["version"]}]({data["app"]["link"]}) | ' \
-                    f'[Uninstaller]({data["uninstaller"]["link"]})\n'
+            f'[APK v{data["app"]["version"]}]({data["app"]["link"]}) | ' \
+            f'[Uninstaller]({data["uninstaller"]["link"]})\n'
     await request.edit(releases)
- 
- 
+
+
 @register(outgoing=True, pattern=r"^.device(?: |$)(\S*)")
 async def device_info(request):
     """ get android device basic info from its codename """
@@ -73,8 +73,8 @@ async def device_info(request):
                 f'**Codename**: `{codename}`\n' \
                 f'**Model**: {model}\n\n'
     await request.edit(reply)
- 
- 
+
+
 @register(outgoing=True, pattern=r"^.codename(?: |)([\S]*)(?: |)([\s\S]*)")
 async def codename_info(request):
     """ search for android codename """
@@ -107,8 +107,8 @@ async def codename_info(request):
     else:
         reply = f"`Couldn't find {device} codename!`\n"
     await request.edit(reply)
- 
- 
+
+
 @register(outgoing=True, pattern="^.pixeldl(?: |$)(.*)")
 async def download_api(dl):
     await dl.edit("`Collecting information...`")
@@ -189,7 +189,7 @@ async def download_api(dl):
             f"`ETA` -> {time_formatter(eta)}"
         )
         if round(diff % 15.00) == 0 and display_message != current_message or (
-          downloaded == file_size):
+                downloaded == file_size):
             await dl.edit(current_message)
             display_message = current_message
         if downloaded == file_size:
@@ -211,8 +211,8 @@ async def download_api(dl):
     await dl.delete()
     driver.quit()
     return
- 
- 
+
+
 @register(outgoing=True, pattern=r"^.specs(?: |)([\S]*)(?: |)([\s\S]*)")
 async def devices_specifications(request):
     """ Mobile devices specifications """
@@ -263,8 +263,8 @@ async def devices_specifications(request):
                 .replace('<b>', '').replace('</b>', '').strip()
             reply += f'**{title}**: {data}\n'
     await request.edit(reply)
- 
- 
+
+
 @register(outgoing=True, pattern=r"^.twrp(?: |$)(\S*)")
 async def twrp(request):
     """ get android device twrp """
@@ -290,8 +290,8 @@ async def twrp(request):
         f'[{dl_file}]({dl_link}) - __{size}__\n' \
         f'**Updated:** __{date}__\n'
     await request.edit(reply)
- 
- 
+
+
 CMD_HELP.update({
     "android":
     ">`.magisk`"
@@ -307,4 +307,3 @@ CMD_HELP.update({
     "\n\n>`.twrp <codename>`"
     "\nUsage: Get latest twrp download for android device."
 })
- 

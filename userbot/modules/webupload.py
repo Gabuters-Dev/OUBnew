@@ -9,7 +9,9 @@ from userbot.events import register
 from userbot import CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
 
 
-@register(outgoing=True, pattern="^\.web ?(.+?|) (anonfiles|transfer|filebin|anonymousfiles|megaupload|bayfiles|letsupload|0x0)")
+@register(
+    outgoing=True,
+    pattern="^\.web ?(.+?|) (anonfiles|transfer|filebin|anonymousfiles|megaupload|bayfiles|letsupload|0x0)")
 async def _(event):
     await event.edit("`Processing ...`")
     PROCESS_RUN_TIME = 100
@@ -32,8 +34,7 @@ async def _(event):
         "megaupload": "curl -F \"file=@{full_file_path}\" https://megaupload.is/api/upload",
         "bayfiles": "curl -F \"file=@{full_file_path}\" https://bayfiles.com/api/upload",
         "letsupload": "curl -F \"file=@{full_file_path}\" https://api.letsupload.cc/upload",
-        "0x0": "curl -F \"file=@{full_file_path}\" https://0x0.st"
-    }
+        "0x0": "curl -F \"file=@{full_file_path}\" https://0x0.st"}
     filename = os.path.basename(file_name)
     try:
         selected_one = CMD_WEB[selected_transfer].format(
@@ -67,9 +68,6 @@ async def _(event):
         # 4096 characters
         await event.edit(t_response)
 
-CMD_HELP.update({
-    "webupload":
-    ">`.web` **File** **Server**"
-    "\nServer List: anonfiles|transfer|filebin|anonymousfiles|megaupload|bayfiles|lestupload|0x0"
-    "\nUsage: Upload file to web."
-})
+CMD_HELP.update({"webupload": ">`.web` **File** **Server**"
+                 "\nServer List: anonfiles|transfer|filebin|anonymousfiles|megaupload|bayfiles|lestupload|0x0"
+                 "\nUsage: Upload file to web."})

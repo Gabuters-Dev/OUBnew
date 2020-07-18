@@ -19,4 +19,3 @@ CMD_HELP.update({
 \n(Light Panel, Blue Background)\
 "
 })
- 

@@ -3,14 +3,14 @@
 # Licensed under the Raphielscape Public License, Version 1.d (the "License");
 # you may not use this file except in compliance with the License.
 #
- 
+
 import asyncio
 import html
 import json
 import textwrap
 from io import BytesIO, StringIO
 from urllib.parse import quote as urlencode
- 
+
 import aiohttp
 import bs4
 import jikanpy
@@ -23,21 +23,22 @@ from telethon.errors.rpcerrorlist import FilePartsInvalidError
 from telethon.tl.types import (DocumentAttributeAnimated,
                                DocumentAttributeFilename, MessageMediaDocument)
 from telethon.utils import is_image, is_video
- 
+
 from userbot import CMD_HELP
 from userbot.events import register
- 
+
 jikan = Jikan()
- 
+
 # Anime Helper
- 
+
+
 def getPosterLink(mal):
     # grab poster from kitsu
     kitsu = getKitsu(mal)
     image = requests.get(f"https://kitsu.io/api/edge/anime/{kitsu}").json()
     return image["data"]["attributes"]["posterImage"]["original"]
- 
- 
+
+
 def getKitsu(mal):
     # get kitsu id from mal id
     link = f"https://kitsu.io/api/edge/mappings?filter[external_site]=myanimelist/anime&filter[external_id]={mal}"
@@ -45,8 +46,8 @@ def getKitsu(mal):
     link = f"https://kitsu.io/api/edge/mappings/{result}/item?fields[anime]=slug"
     kitsu = requests.get(link).json()["data"]["id"]
     return kitsu
- 
- 
+
+
 def getBannerLink(mal, kitsu_search=True):
     # try getting kitsu backdrop
     if kitsu_search:
@@ -69,8 +70,8 @@ def getBannerLink(mal, kitsu_search=True):
     if image:
         return image
     return getPosterLink(mal)
- 
- 
+
+
 def get_anime_manga(mal_id, search_type, _user_id):
     jikan = jikanpy.jikan.Jikan()
     if search_type == "anime_anime":
@@ -146,8 +147,8 @@ def get_anime_manga(mal_id, search_type, _user_id):
         """
         )
     return caption, image
- 
- 
+
+
 def get_poster(query):
     url_enc_name = query.replace(" ", "+")
     # Searching for query list in imdb
@@ -166,8 +167,8 @@ def get_poster(query):
     if image is not None:
         # img_path = wget.download(image, os.path.join(Config.DOWNLOAD_LOCATION, 'imdb_poster.jpg'))
         return image
- 
- 
+
+
 def post_to_telegraph(anime_title, html_format_content):
     post_client = TelegraphPoster(use_api=True)
     auth_name = "@GengKapak"
@@ -179,8 +180,8 @@ def post_to_telegraph(anime_title, html_format_content):
         author_url=bish,
         text=html_format_content)
     return post_page["url"]
- 
- 
+
+
 def replace_text(text):
     return text.replace(
         '"',
@@ -191,8 +192,8 @@ def replace_text(text):
             "").replace(
                 "\\",
         "")
- 
- 
+
+
 @register(outgoing=True, pattern=r"^\.anime ?(.*)")
 async def anime(event):
     query = event.pattern_match.group(1)
@@ -267,8 +268,8 @@ async def anime(event):
     rep += f"📖 <b>Synopsis</b>: <i>{synopsis}</i>\n"
     rep += f'<b>Read More:</b> <a href="{url}">MyAnimeList</a>'
     await event.edit(rep, parse_mode="HTML", link_preview=False)
- 
- 
+
+
 @register(outgoing=True, pattern=r"^\.manga ?(.*)")
 async def manga(event):
     query = event.pattern_match.group(1)
@@ -315,8 +316,8 @@ async def manga(event):
         rep += f"📖 <b>Synopsis</b>: <i>{synopsis}</i>\n"
         rep += f'<b>Read More:</b> <a href="{url}">MyAnimeList</a>'
         await event.edit(rep, parse_mode="HTML", link_preview=False)
- 
- 
+
+
 @register(outgoing=True, pattern=r"^\.a(kaizoku|kayo) ?(.*)")
 async def site_search(event):
     message = await event.get_reply_message()
@@ -329,13 +330,13 @@ async def site_search(event):
     else:
         await event.edit("`Uuf Bro.. Gib something to Search`")
         return
- 
+
     if site == "kaizoku":
         search_url = f"https://animekaizoku.com/?s={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
         search_result = soup.find_all("h2", {"class": "post-title"})
- 
+
         if search_result:
             result = f"<a href='{search_url}'>Click Here For More Results</a> <b>of</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>: \n\n"
             for entry in search_result:
@@ -346,26 +347,26 @@ async def site_search(event):
         else:
             result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>"
             await event.edit(result, parse_mode="HTML")
- 
+
     elif site == "kayo":
         search_url = f"https://animekayo.com/?s={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
         search_result = soup.find_all("h2", {"class": "title"})
- 
+
         result = f"<a href='{search_url}'>Click Here For More Results</a> <b>of</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>: \n\n"
         for entry in search_result:
- 
+
             if entry.text.strip() == "Nothing Found":
                 result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>"
                 break
- 
+
             post_link = entry.a["href"]
             post_name = html.escape(entry.text.strip())
             result += f"• <a href='{post_link}'>{post_name}</a>\n"
             await event.edit(result, parse_mode="HTML")
- 
- 
+
+
 @register(outgoing=True, pattern=r"^\.char ?(.*)")
 async def character(event):
     message = await event.get_reply_message()
@@ -377,7 +378,7 @@ async def character(event):
     else:
         await event.edit("Format: `.char <character name>`")
         return
- 
+
     try:
         search_result = jikan.search("character", search_query)
     except APIException:
@@ -390,7 +391,7 @@ async def character(event):
         caption += f" ({character['name_kanji']})\n"
     else:
         caption += "\n"
- 
+
     if character["nicknames"]:
         nicknames_string = ", ".join(character["nicknames"])
         caption += f"\n**Nicknames** : `{nicknames_string}`"
@@ -413,8 +414,8 @@ async def character(event):
         caption=replace_text(caption),
         reply_to=event,
     )
- 
- 
+
+
 @register(outgoing=True, pattern=r"^\.upcoming ?(.*)")
 async def upcoming(message):
     rep = "<b>Upcoming anime</b>\n"
@@ -427,8 +428,8 @@ async def upcoming(message):
         if len(rep) > 1000:
             break
         await message.edit(rep, parse_mode="html")
- 
- 
+
+
 @register(outgoing=True, pattern=r"^\.scanime ?(.*)")
 async def get_anime(message):
     try:
@@ -444,7 +445,7 @@ async def get_anime(message):
     except Exception as err:
         await message.edit(f"**Encountered an Unknown Exception**: \n{err}")
         return
- 
+
     p_rm = await message.reply("`Searching Anime...`")
     f_mal_id = ""
     try:
@@ -457,11 +458,11 @@ async def get_anime(message):
     except Exception as err:
         await p_rm.edit(f"**Encountered an Unknown Exception**: \n{err}")
         return
- 
+
     results_ = await jikan.anime(f_mal_id)
     await jikan.close()
     await message.delete()
- 
+
     # Get All Info of anime
     anime_title = results_["title"]
     jap_title = results_["title_japanese"]
@@ -479,11 +480,11 @@ async def get_anime(message):
     producer_list = results_["producers"]
     studios_list = results_["studios"]
     genres_list = results_["genres"]
- 
+
     # Info for Buttons
     mal_dir_link = results_["url"]
     trailer_link = results_["trailer_url"]
- 
+
     main_poster = ""
     telegraph_poster = ""
     # Poster Links Search
@@ -499,7 +500,7 @@ async def get_anime(message):
     main_poster = telegraph_poster
     if not telegraph_poster:
         telegraph_poster = main_poster
- 
+
     genress_md = ""
     producer_md = ""
     studio_md = ""
@@ -509,14 +510,14 @@ async def get_anime(message):
         producer_md += f"[{i['name']}]({i['url']}) "
     for i in studios_list:
         studio_md += f"[{i['name']}]({i['url']}) "
- 
+
     # Build synopsis telegraph post
     html_enc = ""
     html_enc += f"<img src = '{telegraph_poster}' title = {anime_title}/>"
     html_enc += "<br><b>» Synopsis: </b></br>"
     html_enc += f"<br><em>{synopsis}</em></br>"
     synopsis_link = post_to_telegraph(anime_title, html_enc)
- 
+
     # Build captions:
     captions = f"""📺  `{anime_title}` - `{eng_title}` - `{jap_title}`
 **🎭 Genre:** `{genress_md}`
@@ -529,11 +530,11 @@ async def get_anime(message):
 [🎬 Trailer]({trailer_link})
 [📚 More Info]({mal_dir_link})
 """
- 
+
     await p_rm.delete()
     await message.client.send_file(message.chat_id, file=main_poster, caption=captions)
- 
- 
+
+
 @register(outgoing=True, pattern=r"^\.smanga ?(.*)")
 async def manga(message):
     search_query = message.pattern_match.group(1)
@@ -548,8 +549,8 @@ async def manga(message):
     await message.client.send_file(
         message.chat_id, file=image, caption=caption, parse_mode="HTML"
     )
- 
- 
+
+
 @register(outgoing=True, pattern=r"^\.sanime ?(.*)")
 async def anime(message):
     search_query = message.pattern_match.group(1)
@@ -570,8 +571,8 @@ async def anime(message):
         await message.client.send_file(
             message.chat_id, file=image, caption=caption, parse_mode="HTML"
         )
- 
- 
+
+
 @register(outgoing=True, pattern=r"^\.whatanime")
 async def whatanime(e):
     media = e.media
@@ -634,8 +635,8 @@ async def whatanime(e):
             await e.reply(ctext, file=file, parse_mode="html")
         except FilePartsInvalidError:
             await e.reply("`Cannot send preview.`")
- 
- 
+
+
 def memory_file(name=None, contents=None, *, bytes=True):
     if isinstance(contents, str) and bytes:
         contents = contents.encode()
@@ -646,8 +647,8 @@ def memory_file(name=None, contents=None, *, bytes=True):
         file.write(contents)
         file.seek(0)
     return file
- 
- 
+
+
 def is_gif(file):
     # ngl this should be fixed, telethon.utils.is_gif but working
     # lazy to go to github and make an issue kek
@@ -657,8 +658,8 @@ def is_gif(file):
             file, "document", file).attributes:
         return False
     return True
- 
- 
+
+
 CMD_HELP.update({
     "anime":
     ".anime <anime>\
@@ -678,5 +679,3 @@ CMD_HELP.update({
     \n\n.whatanime Reply with media.\
     \nUsage: Find anime from media file."
 })
- 
- 

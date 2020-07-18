@@ -42,7 +42,7 @@ async def filter_incoming_handler(handler):
 
 @register(outgoing=True, pattern=r"^.filter (.*)")
 async def add_new_filter(new_handler):
-    #Prevent Channel Bug to control filter
+    # Prevent Channel Bug to control filter
     if new_handler.is_channel and not new_handler.is_group:
         await new_handler.edit("`Filter Commad isn't permitted on channels`")
         return
@@ -84,7 +84,7 @@ async def add_new_filter(new_handler):
 
 @register(outgoing=True, pattern=r"^.stop (.*)")
 async def remove_a_filter(r_handler):
-    #Prevent Channel Bug to control stop
+    # Prevent Channel Bug to control stop
     if r_handler.is_channel and not r_handler.is_group:
         await r_handler.edit("`Stop Commad isn't permitted on channels`")
         return
@@ -103,7 +103,7 @@ async def remove_a_filter(r_handler):
 
 @register(outgoing=True, pattern="^.rmbotfilters (.*)")
 async def kick_marie_filter(event):
-    #Prevent Channel Bug to control rmbotfilters
+    # Prevent Channel Bug to control rmbotfilters
     if event.is_channel and not event.is_group:
         await event.edit("`rmbotfilters Commad isn't permitted on channels`")
         return
@@ -132,7 +132,7 @@ async def kick_marie_filter(event):
 
 @register(outgoing=True, pattern="^.filters$")
 async def filters_active(event):
-    #Prevent Channel Bug to control filters
+    # Prevent Channel Bug to control filters
     if event.is_channel and not event.is_group:
         await event.edit("`Filters Commad isn't permitted on channels`")
         return

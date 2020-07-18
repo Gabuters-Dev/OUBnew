@@ -71,10 +71,10 @@ async def update_name(name):
 async def set_profilepic(propic):
     """ For .profilepic command, change your profile picture in Telegram. """
     await propic.edit("`Processing...`")
-    
+
     replymsg = await propic.get_reply_message()
     photo = None
-    #Prevent Channel Bug to control Change Profile
+    # Prevent Channel Bug to control Change Profile
     if propic.is_channel and not propic.is_group:
         await propic.edit("`Setpfp Commad isn't permitted on channels`")
         return
@@ -106,7 +106,7 @@ async def set_biograph(setbio):
     """ For .setbio command, set a new bio for your profile in Telegram. """
     await setbio.edit("`Processing...`")
     newbio = setbio.pattern_match.group(1)
-    #Prevent Channel Bug to control Change bio
+    # Prevent Channel Bug to control Change bio
     if setbio.is_channel and not setbio.is_group:
         await setbio.edit("`setbio Commad isn't permitted on channels`")
         return
@@ -119,7 +119,7 @@ async def update_username(username):
     """ For .username command, set a new username in Telegram. """
     await username.edit("`Processing...`")
     newusername = username.pattern_match.group(1)
-    #Prevent Channel Bug to control Change username
+    # Prevent Channel Bug to control Change username
     if username.is_channel and not username.is_group:
         await username.edit("`username Commad isn't permitted on channels`")
         return
@@ -172,7 +172,7 @@ async def remove_profilepic(delpfp):
     """ For .delpfp command, delete your current profile picture in Telegram. """
     await delpfp.edit("`Processing...`")
     group = delpfp.text[8:]
-    #Prevent Channel Bug to control delete current profile
+    # Prevent Channel Bug to control delete current profile
     if delpfp.is_channel and not delpfp.is_group:
         await delpfp.edit("`delpfp Commad isn't permitted on channels`")
         return

@@ -18,10 +18,10 @@ from telethon.tl.functions.channels import (EditAdminRequest,
                                             EditBannedRequest,
                                             EditPhotoRequest)
 from telethon.tl.functions.messages import UpdatePinnedMessageRequest
-from telethon.tl.types import (ChannelParticipantsAdmins, 
-                               ChannelParticipantAdmin, ChatAdminRights, 
-                               ChatBannedRights, MessageEntityMentionName, 
-                               MessageMediaPhoto, ChannelParticipantsBots, 
+from telethon.tl.types import (ChannelParticipantsAdmins,
+                               ChannelParticipantAdmin, ChatAdminRights,
+                               ChatBannedRights, MessageEntityMentionName,
+                               MessageMediaPhoto, ChannelParticipantsBots,
                                ChannelParticipantCreator)
 
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, bot
@@ -71,7 +71,7 @@ UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
 @register(outgoing=True, pattern="^.setgpic$")
 async def set_group_photo(gpic):
-    #Prevent Channel Bug to set channel pic
+    # Prevent Channel Bug to set channel pic
     if gpic.is_channel and not gpic.is_group:
         await gpic.edit("`setgpic Commad isn't permitted on channels`")
         return
@@ -114,7 +114,7 @@ async def set_group_photo(gpic):
 
 @register(outgoing=True, pattern="^.promote(?: |$)(.*)")
 async def promote(promt):
-    #Prevent Channel Bug to set channel pic
+    # Prevent Channel Bug to set channel pic
     if promt.is_channel and not promt.is_group:
         await promt.edit("`Promote Commad isn't permitted on channels`")
         return
@@ -168,7 +168,7 @@ async def promote(promt):
 
 @register(outgoing=True, pattern="^.demote(?: |$)(.*)")
 async def demote(dmod):
-    #Prevent Channel Bug to set channel pic
+    # Prevent Channel Bug to set channel pic
     if dmod.is_channel and not dmod.is_group:
         await dmod.edit("`demote Commad isn't permitted on channels`")
         return
@@ -221,7 +221,7 @@ async def demote(dmod):
 
 @register(outgoing=True, pattern="^.ban(?: |$)(.*)")
 async def ban(bon):
-    #Prevent Channel Bug to ban
+    # Prevent Channel Bug to ban
     if bon.is_channel and not bon.is_group:
         await bon.edit("`ban Commad isn't permitted on channels`")
         return
@@ -278,7 +278,7 @@ async def ban(bon):
 
 @register(outgoing=True, pattern="^.unban(?: |$)(.*)")
 async def nothanos(unbon):
-    #Prevent Channel Bug to unban
+    # Prevent Channel Bug to unban
     if unbon.is_channel and not unbon.is_group:
         await unbon.edit("`unban Commad isn't permitted on channels`")
         return
@@ -318,7 +318,7 @@ async def nothanos(unbon):
 
 @register(outgoing=True, pattern="^.mute(?: |$)(.*)")
 async def spider(spdr):
-    #Prevent Channel Bug to mute
+    # Prevent Channel Bug to mute
     if spdr.is_channel and not spdr.is_group:
         await spdr.edit("`mute Commad isn't permitted on channels`")
         return
@@ -381,7 +381,7 @@ async def spider(spdr):
 
 @register(outgoing=True, pattern="^.unmute(?: |$)(.*)")
 async def unmoot(unmot):
-    #Prevent Channel Bug to unmute
+    # Prevent Channel Bug to unmute
     if unmot.is_channel and not unmot.is_group:
         await unmot.edit("`unmute Commad isn't permitted on channels`")
         return
@@ -469,7 +469,7 @@ async def ungmoot(un_gmute):
     chat = await un_gmute.get_chat()
     admin = chat.admin_rights
     creator = chat.creator
-    #Prevent Channel Bug
+    # Prevent Channel Bug
     if un_gmute.is_channel and not un_gmute.is_group:
         await un_gmute.edit("`ungmute Command isn't permitted on channels`")
         return
@@ -513,7 +513,7 @@ async def gspider(gspdr):
     chat = await gspdr.get_chat()
     admin = chat.admin_rights
     creator = chat.creator
-    #Prevent Channel Bug
+    # Prevent Channel Bug
     if gspdr.is_channel and not gspdr.is_group:
         await gspdr.edit("`Gmute Commad isn't permitted on channels`")
         return
@@ -601,7 +601,6 @@ async def rm_deletedacc(show):
                 EditBannedRequest(show.chat_id, user.id, UNBAN_RIGHTS))
             del_u += 1
 
-
     if del_u > 0:
         del_status = f"Cleaned **{del_u}** deleted account(s)"
 
@@ -609,11 +608,9 @@ async def rm_deletedacc(show):
         del_status = f"Cleaned **{del_u}** deleted account(s) \
         \n**{del_a}** deleted admin accounts are not removed"
 
-
     await show.edit(del_status)
     await sleep(2)
     await show.delete()
-
 
     if BOTLOG:
         await show.client.send_message(
@@ -634,7 +631,6 @@ async def tagaso(event):
         mentions += f"[\u2063](tg://user?id={user.id})"
     await bot.send_message(
         chat, mentions, reply_to=event.message.reply_to_msg_id)
-
 
 
 @register(outgoing=True, pattern="^.admins(?: |$)(.*)")
@@ -663,7 +659,7 @@ async def _(event):
             await event.edit(str(e))
             return None
     mentions = f'<b>Admins in {title}:</b> \n'
-    #Prevent Channel Bug to check admins
+    # Prevent Channel Bug to check admins
     if show.is_channel and not show.is_group:
         await show.edit("`admins Commad isn't permitted on channels`")
         return
@@ -671,15 +667,17 @@ async def _(event):
         async for x in bot.iter_participants(chat, filter=ChannelParticipantsAdmins):
             if not x.deleted:
                 if isinstance(x.participant, ChannelParticipantCreator):
-                    mentions += "\n 👑 [{}](tg://user?id={}) `{}`".format(x.first_name, x.id, x.id)
+                    mentions += "\n 👑 [{}](tg://user?id={}) `{}`".format(
+                        x.first_name, x.id, x.id)
         mentions += "\n"
         async for x in bot.iter_participants(chat, filter=ChannelParticipantsAdmins):
             if not x.deleted:
                 if isinstance(x.participant, ChannelParticipantAdmin):
-                    mentions += "\n 🔰 [{}](tg://user?id={}) `{}`".format(x.first_name, x.id, x.id)
- 
+                    mentions += "\n 🔰 [{}](tg://user?id={}) `{}`".format(
+                        x.first_name, x.id, x.id)
+
       #  mentions += "\n 💘 [Deleted Account](tg://user?id=689811472) `689811472`"
-            
+
     except Exception as e:
         mentions += " " + str(e) + "\n"
     if should_mention_admins:
@@ -694,7 +692,7 @@ async def _(event):
 
 @register(outgoing=True, pattern="^.pin(?: |$)(.*)")
 async def pin(msg):
-    #Prevent Channel Bug to check admins
+    # Prevent Channel Bug to check admins
     if msg.is_channel and not msg.is_group:
         await msg.edit("`pin Commad isn't permitted on channels`")
         return
@@ -745,7 +743,7 @@ async def pin(msg):
 
 @register(outgoing=True, pattern="^.kick(?: |$)(.*)")
 async def kick(usr):
-    #Prevent Channel Bug to check admins
+    # Prevent Channel Bug to check admins
     if usr.is_channel and not usr.is_group:
         await usr.edit("`kick Commad isn't permitted on channels`")
         return
@@ -879,7 +877,7 @@ async def get_user_from_id(user, event):
 
     return user_obj
 
-  
+
 @register(outgoing=True, pattern="^.usersdel ?(.*)")
 async def get_usersdel(show):
     """ For .usersdel command, list all of the deleted users in a chat. """
@@ -896,7 +894,7 @@ async def get_usersdel(show):
         else:
             searchq = show.pattern_match.group(1)
             async for user in show.client.iter_participants(
-                   show.chat_id, search=f'{searchq}'):
+                    show.chat_id, search=f'{searchq}'):
                 if not user.deleted:
                     mentions += f"\n[{user.first_name}](tg://user?id={user.id}) `{user.id}`"
          #       else:
@@ -969,6 +967,7 @@ async def get_userdel_from_id(user, event):
 
     return user_obj
 
+
 @register(outgoing=True, pattern="^.bots(?: |$)(.*)")
 async def _(event):
     """ For .listbot command, list all of the bots of the chat. """
@@ -991,14 +990,15 @@ async def _(event):
     try:
         async for x in bot.iter_participants(chat, filter=ChannelParticipantsBots):
             if isinstance(x.participant, ChannelParticipantAdmin):
-                mentions += "\n 👑 [{}](tg://user?id={}) `{}`".format(x.first_name, x.id, x.id)
+                mentions += "\n 👑 [{}](tg://user?id={}) `{}`".format(
+                    x.first_name, x.id, x.id)
             else:
-                mentions += "\n [{}](tg://user?id={}) `{}`".format(x.first_name, x.id, x.id)
+                mentions += "\n [{}](tg://user?id={}) `{}`".format(
+                    x.first_name, x.id, x.id)
     except Exception as e:
         mentions += " " + str(e) + "\n"
     await event.edit(mentions)
 
-  
 
 CMD_HELP.update({
     "admin":

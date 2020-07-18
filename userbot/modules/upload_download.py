@@ -8,24 +8,24 @@
 # License: MPL and OSSRPL
 """ Userbot module which contains everything related to
      downloading/uploading from/to the server. """
- 
+
 import json
 import os
 import subprocess
 import time
 import math
- 
+
 from pySmartDL import SmartDL
 import asyncio
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
- 
+
 from userbot import LOGS, CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
 from userbot.utils import progress, humanbytes
 from userbot.events import register
- 
- 
+
+
 @register(pattern=r".download(?: |$)(.*)", outgoing=True)
 async def download(target_file):
     """ For .download command, download files to the userbot's server. """
@@ -102,8 +102,8 @@ async def download(target_file):
     else:
         await target_file.edit(
             "Reply to a message to download to my local server.")
- 
- 
+
+
 @register(pattern=r".uploadir (.*)", outgoing=True)
 async def uploadir(udir_event):
     """ For .uploadir command, allows you to upload everything from a folder in the server"""
@@ -178,8 +178,8 @@ async def uploadir(udir_event):
             "Uploaded {} files successfully !!".format(uploaded))
     else:
         await udir_event.edit("404: Directory Not Found")
- 
- 
+
+
 @register(pattern=r".upload (.*)", outgoing=True)
 async def upload(u_event):
     """ For .upload command, allows you to upload a file from the userbot's server """
@@ -201,8 +201,8 @@ async def upload(u_event):
         await u_event.edit("Uploaded successfully !!")
     else:
         await u_event.edit("404: File Not Found")
- 
- 
+
+
 def get_video_thumb(file, output=None, width=90):
     """ Get video thumbnail """
     metadata = extractMetadata(createParser(file))
@@ -228,8 +228,8 @@ def get_video_thumb(file, output=None, width=90):
     if not popen.returncode and os.path.lexists(file):
         return output
     return None
- 
- 
+
+
 def extract_w_h(file):
     """ Get width and height of media """
     command_to_run = [
@@ -254,8 +254,8 @@ def extract_w_h(file):
         width = int(response_json["streams"][0]["width"])
         height = int(response_json["streams"][0]["height"])
         return width, height
- 
- 
+
+
 @register(pattern=r".uploadas(stream|vn|all) (.*)", outgoing=True)
 async def uploadas(uas_event):
     """ For .uploadas command, allows you to specify some arguments for upload. """
@@ -346,8 +346,8 @@ async def uploadas(uas_event):
             await uas_event.edit(str(err))
     else:
         await uas_event.edit("404: File Not Found")
- 
- 
+
+
 CMD_HELP.update({
     "download":
     ">`.download <link|filename> or reply to media`"
@@ -355,4 +355,3 @@ CMD_HELP.update({
     "\n\n>`.upload <path in server>`"
     "\nUsage: Uploads a locally stored file to the chat."
 })
- 

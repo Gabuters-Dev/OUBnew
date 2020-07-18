@@ -3,11 +3,11 @@
 """
    Heroku manager for your userbot
 """
- 
+
 import heroku3
 import aiohttp
 import math
- 
+
 from userbot import (
     CMD_HELP,
     HEROKU_APP_NAME,
@@ -15,9 +15,9 @@ from userbot import (
     BOTLOG,
     BOTLOG_CHATID
 )
- 
+
 from userbot.events import register
- 
+
 heroku_api = "https://api.heroku.com"
 if HEROKU_APP_NAME is not None and HEROKU_API_KEY is not None:
     Heroku = heroku3.from_key(HEROKU_API_KEY)
@@ -25,13 +25,13 @@ if HEROKU_APP_NAME is not None and HEROKU_API_KEY is not None:
     heroku_var = app.config()
 else:
     app = None
- 
- 
+
+
 """
    ConfigVars setting, get current var, set var or delete var...
 """
- 
- 
+
+
 @register(outgoing=True,
           pattern=r"^.(get|del) var(?: |$)(\w*)")
 async def variable(var):
@@ -93,8 +93,8 @@ async def variable(var):
         else:
             await var.edit("`Information don't exists...`")
             return True
- 
- 
+
+
 @register(outgoing=True, pattern=r'^.set var (\w*) ([\s\S]*)')
 async def set_var(var):
     await var.edit("`Setting information...`")
@@ -117,13 +117,13 @@ async def set_var(var):
             )
         await var.edit("`Information added...`")
     heroku_var[variable] = value
- 
- 
+
+
 """
     Check account quota, remaining quota, used quota, used app quota
 """
- 
- 
+
+
 @register(outgoing=True, pattern=r"^.usage(?: |$)")
 async def dyno_usage(dyno):
     """
@@ -139,9 +139,9 @@ async def dyno_usage(dyno):
             'Chrome/81.0.4044.117 Mobile Safari/537.36'
         )
         headers = {
-         'User-Agent': useragent,
-         'Authorization': f'Bearer {HEROKU_API_KEY}',
-         'Accept': 'application/vnd.heroku+json; version=3.account-quotas',
+            'User-Agent': useragent,
+            'Authorization': f'Bearer {HEROKU_API_KEY}',
+            'Accept': 'application/vnd.heroku+json; version=3.account-quotas',
         }
         async with session.get(heroku_api + path, headers=headers) as r:
             if r.status != 200:
@@ -179,18 +179,18 @@ async def dyno_usage(dyno):
             AppMinutes = math.floor(AppQuotaUsed % 60)
 
             await dyno.edit(
-                 "**Dyno Usage**:\n\n"
-                 f"-> `Dyno usage for`  **{app.name}**:\n"
-                 f"     •  **{AppHours} hour(s), "
-                 f"{AppMinutes} minute(s)  -  {AppPercentage}%**"
-                 "\n\n"
+                "**Dyno Usage**:\n\n"
+                f"-> `Dyno usage for`  **{app.name}**:\n"
+                f"     •  **{AppHours} hour(s), "
+                f"{AppMinutes} minute(s)  -  {AppPercentage}%**"
+                "\n\n"
                  "-> `Dyno hours quota remaining this month`:\n"
                  f"     •  **{hours} hour(s), {minutes} minute(s)  "
                  f"-  {percentage}%**"
             )
             return True
- 
- 
+
+
 CMD_HELP.update({
     "heroku":
     ">.`usage`"
@@ -205,4 +205,3 @@ CMD_HELP.update({
     "\nUsage: delete existing variable"
     "\n!!! WARNING !!!, after deleting variable the bot will restarted"
 })
- 

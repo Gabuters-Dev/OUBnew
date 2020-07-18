@@ -4,11 +4,12 @@
 # you may not use this file except in compliance with the License.
 #
 # Port to UserBot by @MoveAngel
- 
+
 from covid import Covid
 from userbot import CMD_HELP
 from userbot.events import register
- 
+
+
 @register(outgoing=True, pattern=r"^\.covid (.*)")
 async def corona(event):
     await event.edit("`Processing...`")
@@ -28,10 +29,10 @@ async def corona(event):
     else:
         output_text = "No information yet about this country!"
     await event.edit(f"Corona Virus Info in {country}:\n\n{output_text}")
- 
- 
+
+
 CMD_HELP.update({
-   "covid": 
+    "covid":
     "`.covid` <country>"
     "\nUsage: Get an information about data covid-19 in your country."
 })

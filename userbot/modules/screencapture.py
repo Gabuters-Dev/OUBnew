@@ -5,16 +5,16 @@
 #
 # The entire source code is OSSRPL except 'screencapture' which is MPL
 # License: MPL and OSSRPL
- 
+
 import io
- 
+
 from re import match
 from asyncio import sleep
 from userbot.events import register
 from userbot.utils import chrome, options
 from userbot import CMD_HELP
- 
- 
+
+
 @register(pattern=r".ss (.*)", outgoing=True)
 async def capture(url):
     """ For .ss command, capture a website's screenshot and send the photo. """
@@ -34,13 +34,11 @@ async def capture(url):
     height = driver.execute_script(
         "return Math.max(document.body.scrollHeight, document.body.offsetHeight, "
         "document.documentElement.clientHeight, document.documentElement.scrollHeight, "
-        "document.documentElement.offsetHeight);"
-    )
+        "document.documentElement.offsetHeight);")
     width = driver.execute_script(
         "return Math.max(document.body.scrollWidth, document.body.offsetWidth, "
         "document.documentElement.clientWidth, document.documentElement.scrollWidth, "
-        "document.documentElement.offsetWidth);"
-    )
+        "document.documentElement.offsetWidth);")
     driver.set_window_size(width + 125, height + 125)
     wait_for = height / 1000
     await url.edit(
@@ -63,12 +61,11 @@ async def capture(url):
                                    caption=input_str,
                                    force_document=True,
                                    reply_to=message_id)
- 
- 
+
+
 CMD_HELP.update({
     "ss":
     ">`.ss <url>`"
     "\nUsage: Takes a screenshot of a website and sends the screenshot."
     "\nExample of a valid URL : `https://www.google.com`"
 })
- 

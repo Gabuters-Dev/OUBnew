@@ -16,7 +16,7 @@ from userbot.events import register
 
 @register(outgoing=True, pattern="^.speed$")
 async def speedtst(spd):
-    #Prevent Channel Bug to use speed
+    # Prevent Channel Bug to use speed
     if spd.is_channel and not spd.is_group:
         await spd.edit("`update Commad isn't permitted on channels`")
         return
@@ -59,7 +59,7 @@ def speed_convert(size):
 
 @register(outgoing=True, pattern="^.dc$")
 async def neardc(event):
-    #Prevent Channel Bug to use dc
+    # Prevent Channel Bug to use dc
     if event.is_channel and not event.is_group:
         await event.edit("`dc Commad isn't permitted on channels`")
         return
@@ -72,7 +72,7 @@ async def neardc(event):
 
 @register(outgoing=True, pattern="^.ping$")
 async def pingme(pong):
-    #Prevent Channel Bug to use ping
+    # Prevent Channel Bug to use ping
     if pong.is_channel and not pong.is_group:
         await pong.edit("`Ping Commad isn't permitted on channels`")
         return
